@@ -14,8 +14,6 @@ pytesseract.pytesseract.tesseract_cmd = r'D:\Program Files\Tesseract-OCR\tessera
 
 
 load_dotenv()
-openai.organization = "org-P44J2sYyfEEfBF2gCYM7wSgX"
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def convert_pdf_to_images(pdf_path):
     images = convert_from_path(pdf_path)
@@ -55,6 +53,12 @@ class OCRSummarizerApp(QWidget):
 
         self.api_key_edit = QLineEdit()
         layout.addWidget(self.api_key_edit)
+        
+        self.org_label = QLabel("OpenAI Organization:")
+        layout.addWidget(self.org_label)
+        
+        self.org_edit = QLineEdit()
+        layout.addWidget(self.org_edit)
 
         self.image_label = QLabel()
         self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -117,8 +121,15 @@ class OCRSummarizerApp(QWidget):
         if not api_key:
             self.text_edit.setPlainText("Please enter a valid OpenAI API key.")
             return
+        
+        org = self.org_edit.text().strip()
+        if not org:
+            self.text_edit.setPlainText("Please enter a valid OpenAI organization.")
+            return
+
 
         openai.api_key = api_key
+        openai.organization = org
 
         if hasattr(self, "image_path"):
             if self.image_path.lower().endswith(".pdf"):
