@@ -8,6 +8,7 @@ import sys
 from PyQt6.QtCore import Qt, QByteArray, QBuffer, QIODevice, QSize
 from PyQt6.QtGui import QImage, QPixmap
 from PyQt6.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget, QPushButton, QFileDialog, QTextEdit, QLineEdit
+import time
 
 pytesseract.pytesseract.tesseract_cmd = r'D:\Program Files\Tesseract-OCR\tesseract.exe'  # Replace with the correct path to tesseract.exe
 
@@ -99,10 +100,14 @@ class OCRSummarizerApp(QWidget):
                 thumbnail_image = self.image_pages[0].toqimage().scaled(thumbnail_size, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
                 thumbnail_pixmap = QPixmap.fromImage(thumbnail_image)
 
-                # Save the thumbnail to the root folder
-                thumbnail_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), "thumbnail.png")
-                thumbnail_image.save(thumbnail_filename)
-
+                # Save the thumbnail to the openai_ocr folder with a timestamp ID
+                timestamp = str(int(time.time()))
+                thumbnail_filename = f"thumbnail_{timestamp}.png"
+                thumbnail_folder = os.path.join(os.path.expanduser("~"), "Documents", "openai_ocr")
+                os.makedirs(thumbnail_folder, exist_ok=True)
+                thumbnail_filepath = os.path.join(thumbnail_folder, thumbnail_filename)
+                thumbnail_pixmap.save(thumbnail_filepath)
+                                    
                 # Display the thumbnail
                 self.image_label.setPixmap(thumbnail_pixmap)
                 self.image_path = file_name
@@ -124,6 +129,13 @@ class OCRSummarizerApp(QWidget):
                     temp_image_files.append(temp_filename)
 
                 text = "\n".join([extract_text_from_image(temp_file) for temp_file in temp_image_files])
+                # Save OCR text to the openai_ocr folder with a timestamp ID
+                ocr_filename = f"ocr_text_{self.timestamp}.txt"
+                ocr_folder = os.path.join(os.path.expanduser("~"), "Documents", "openai_ocr")
+                os.makedirs(ocr_folder, exist_ok=True)
+                ocr_filepath = os.path.join(ocr_folder, ocr_filename)
+                with open(ocr_filepath, "w") as f:
+                    f.write(text)
 
                 # Clean up temporary image files
                 for temp_file in temp_image_files:
@@ -132,6 +144,13 @@ class OCRSummarizerApp(QWidget):
                 text = extract_text_from_image(self.image_path)
             summary = generate_summary(text)
             self.text_edit.setPlainText(summary)
+            # Save OCR text to the openai_ocr folder with a timestamp ID
+            ocr_filename = f"ocr_text_{self.timestamp}.txt"
+            ocr_folder = os.path.join(os.path.expanduser("~"), "Documents", "openai_ocr")
+            os.makedirs(ocr_folder, exist_ok=True)
+            ocr_filepath = os.path.join(ocr_folder, ocr_filename)
+            with open(ocr_filepath, "w") as f:
+                f.write(text)
         else:
             self.text_edit.setPlainText("Please load an image or PDF first.")
 
