@@ -62,3 +62,7 @@ To run the OCRSummarizerApp script, simply run the following command in your ter
 python OCRSummarizerApp.py
 
 The application should launch and you can use it to extract text from images or PDFs and generate summaries using the Tesseract OCR engine and OpenAI's GPT-3 API.
+
+### License
+
+This project is released under MIT License. Please refer the LICENSE.txt for more details.
