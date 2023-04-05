@@ -1,3 +1,5 @@
+# OCR Summarizer Application
+
 This Python script is for an OCR (Optical Character Recognition) Summarizer application using PyQt6 for the GUI. The application extracts text from images or PDF files using the Tesseract OCR engine and generates a summary using OpenAI's GPT-3 API.
 
 Here's a breakdown of the script:
@@ -19,14 +21,14 @@ Define the main function, which initializes the QApplication, creates an instanc
 
 When run, the application allows users to input their OpenAI API key and organization, select the Tesseract executable, load an image or PDF, and generate a summary of the extracted text. The application also provides an estimated cost for the summarization request.
 
-step-by-step guide:
+## Installation
 
 1: Install the required libraries:
     pip install pytesseract opencv-python-headless openai PyQt6 pdf2image
 
-2. You also need to install Tesseract. You can find the installation guide for your operating system here: https://tesseract-ocr.github.io/tessdoc/Home.html
+2: You also need to install Tesseract. You can find the installation guide for your operating system here: [link \[tesseract-ocr\] link]( https://tesseract-ocr.github.io/tessdoc/Home.html)
 
-3.You also need to install Poppler, which is required by pdf2image. You can find the installation guide for your operating system here: https://pdf2image.readthedocs.io/en/latest/installation.html
+3:You also need to install Poppler, which is required by pdf2image. You can find the installation guide for your operating system here: [link \[pdf2image\] link](https://pdf2image.readthedocs.io/en/latest/installation.html)
 
 Once you've downloaded and extracted the poppler binaries, follow these steps to add its bin folder to your system's PATH:
 
@@ -42,5 +44,21 @@ Once you've downloaded and extracted the poppler binaries, follow these steps to
 
 After completing these steps, restart your terminal or command prompt, and try running the script again. The error should be resolved, and you should be able to load PDF files without issues.
 
-4. Set up your OpenAI API key and OpenAI ORG
+## USAGE
 
+Set up your OpenAI API key and OpenAI ORG:
+
+- Go to [link \[beta.openai\] link](https://beta.openai.com/signup/)
+
+- Create an account or log in to your existing account.
+- Once logged in, click on the "API keys" tab in the left-hand sidebar.
+- Click on the "Generate New Key" button to generate a new API key.
+- Copy the generated API key and paste it into the "API Key" input field in the OCRSummarizerApp GUI.
+- You will also need to enter your OpenAI organization name in the "Organization" input field in the GUI. This is the name you used to sign up for your OpenAI account.
+ Run the OCRSummarizerApp script
+
+To run the OCRSummarizerApp script, simply run the following command in your terminal or command prompt:
+
+python OCRSummarizerApp.py
+
+The application should launch and you can use it to extract text from images or PDFs and generate summaries using the Tesseract OCR engine and OpenAI's GPT-3 API.
