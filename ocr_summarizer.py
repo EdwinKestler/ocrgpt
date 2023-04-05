@@ -10,8 +10,6 @@ from PyQt6.QtGui import QImage, QPixmap
 from PyQt6.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget, QPushButton, QFileDialog, QTextEdit, QLineEdit
 import time
 
-#pytesseract.pytesseract.tesseract_cmd = r'D:\Program Files\Tesseract-OCR\tesseract.exe'  # Replace with the correct path to tesseract.exe
-
 load_dotenv()
 
 def convert_pdf_to_images(pdf_path):

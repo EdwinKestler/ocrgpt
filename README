@@ -1,0 +1,46 @@
+This Python script is for an OCR (Optical Character Recognition) Summarizer application using PyQt6 for the GUI. The application extracts text from images or PDF files using the Tesseract OCR engine and generates a summary using OpenAI's GPT-3 API.
+
+Here's a breakdown of the script:
+
+-Import required libraries and set up the OpenAI price table.
+-Define helper functions for:
+    Getting the price per 1000 tokens of an engine
+    Estimating the cost of a summarization
+    Converting a PDF to images
+    Extracting text from an image
+    Generating a summary using the GPT-3 API
+-Define the OCRSummarizerApp class, a QWidget subclass that:
+    Sets up the user interface
+    Handles browsing and selecting the Tesseract executable
+    Loads images or PDFs
+    Summarizes the text from the loaded image or PDF
+    Estimates the cost of the summarization
+Define the main function, which initializes the QApplication, creates an instance of the OCRSummarizerApp, and starts the event loop.
+
+When run, the application allows users to input their OpenAI API key and organization, select the Tesseract executable, load an image or PDF, and generate a summary of the extracted text. The application also provides an estimated cost for the summarization request.
+
+step-by-step guide:
+
+1: Install the required libraries:
+    pip install pytesseract opencv-python-headless openai PyQt6 pdf2image
+
+2. You also need to install Tesseract. You can find the installation guide for your operating system here: https://tesseract-ocr.github.io/tessdoc/Home.html
+
+3.You also need to install Poppler, which is required by pdf2image. You can find the installation guide for your operating system here: https://pdf2image.readthedocs.io/en/latest/installation.html
+
+Once you've downloaded and extracted the poppler binaries, follow these steps to add its bin folder to your system's PATH:
+
+    -Open the folder where you extracted the poppler binaries.
+    -Locate the bin folder inside the extracted folder.
+    -Copy the path to the bin folder.
+    -Press Win + X and click on System.
+    -Click on Advanced system settings.
+    -In the System Properties window, click on the Environment Variables button.
+    -Under the System variables section, find the Path variable, select it, and click on Edit.
+    -Click on New and paste the path to the poppler bin folder.
+    -Click OK to save the changes and close all open windows.
+
+After completing these steps, restart your terminal or command prompt, and try running the script again. The error should be resolved, and you should be able to load PDF files without issues.
+
+4. Set up your OpenAI API key and OpenAI ORG
+
