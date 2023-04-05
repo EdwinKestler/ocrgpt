@@ -101,8 +101,8 @@ class OCRSummarizerApp(QWidget):
                 thumbnail_pixmap = QPixmap.fromImage(thumbnail_image)
 
                 # Save the thumbnail to the openai_ocr folder with a timestamp ID
-                timestamp = str(int(time.time()))
-                thumbnail_filename = f"thumbnail_{timestamp}.png"
+                self.timestamp = str(int(time.time()))
+                thumbnail_filename = f"thumbnail_{self.timestamp}.png"
                 thumbnail_folder = os.path.join(os.path.expanduser("~"), "Documents", "openai_ocr")
                 os.makedirs(thumbnail_folder, exist_ok=True)
                 thumbnail_filepath = os.path.join(thumbnail_folder, thumbnail_filename)
@@ -145,12 +145,12 @@ class OCRSummarizerApp(QWidget):
             summary = generate_summary(text)
             self.text_edit.setPlainText(summary)
             # Save OCR text to the openai_ocr folder with a timestamp ID
-            ocr_filename = f"ocr_text_{self.timestamp}.txt"
-            ocr_folder = os.path.join(os.path.expanduser("~"), "Documents", "openai_ocr")
-            os.makedirs(ocr_folder, exist_ok=True)
-            ocr_filepath = os.path.join(ocr_folder, ocr_filename)
-            with open(ocr_filepath, "w") as f:
-                f.write(text)
+            openai_filename = f"openai_response_{self.timestamp}.txt"
+            openai_folder  = os.path.join(os.path.expanduser("~"), "Documents", "openai_ocr")
+            os.makedirs(openai_folder , exist_ok=True)
+            openai_filepath  = os.path.join(openai_folder , openai_filename)
+            with open(openai_filepath , "w") as f:
+                f.write(summary)
         else:
             self.text_edit.setPlainText("Please load an image or PDF first.")
 
