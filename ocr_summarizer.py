@@ -12,7 +12,6 @@ import time
 
 pytesseract.pytesseract.tesseract_cmd = r'D:\Program Files\Tesseract-OCR\tesseract.exe'  # Replace with the correct path to tesseract.exe
 
-
 load_dotenv()
 
 def convert_pdf_to_images(pdf_path):
