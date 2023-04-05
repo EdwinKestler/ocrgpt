@@ -10,7 +10,7 @@ from PyQt6.QtGui import QImage, QPixmap
 from PyQt6.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget, QPushButton, QFileDialog, QTextEdit, QLineEdit
 import time
 
-pytesseract.pytesseract.tesseract_cmd = r'D:\Program Files\Tesseract-OCR\tesseract.exe'  # Replace with the correct path to tesseract.exe
+#pytesseract.pytesseract.tesseract_cmd = r'D:\Program Files\Tesseract-OCR\tesseract.exe'  # Replace with the correct path to tesseract.exe
 
 load_dotenv()
 
@@ -61,6 +61,17 @@ class OCRSummarizerApp(QWidget):
         
         self.org_edit = QLineEdit()
         layout.addWidget(self.org_edit)
+        
+        self.tesseract_label = QLabel("Tesseract Executable:")
+        layout.addWidget(self.tesseract_label)
+
+        self.tesseract_edit = QLineEdit()
+        self.tesseract_edit.setReadOnly(True)
+        layout.addWidget(self.tesseract_edit)
+
+        self.tesseract_button = QPushButton("Browse")
+        self.tesseract_button.clicked.connect(self.browse_tesseract)
+        layout.addWidget(self.tesseract_button)
 
         self.image_label = QLabel()
         self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -78,6 +89,14 @@ class OCRSummarizerApp(QWidget):
         layout.addWidget(self.summarize_button)
 
         self.setLayout(layout)
+        
+    def browse_tesseract(self):
+        options = QFileDialog.Option.ReadOnly
+        file_name, _ = QFileDialog.getOpenFileName(self, "Select Tesseract Executable", "", "Executable Files (*.exe);;All Files (*)", options=options)
+
+        if file_name:
+            self.tesseract_edit.setText(file_name)
+            pytesseract.pytesseract.tesseract_cmd = file_name
 
     def load_image(self):
         options = QFileDialog.Option.ReadOnly
