@@ -5,9 +5,11 @@ import openai
 from pdf2image import convert_from_path
 from dotenv import load_dotenv
 import sys
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QByteArray, QBuffer, QIODevice, QSize
 from PyQt6.QtGui import QImage, QPixmap
 from PyQt6.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget, QPushButton, QFileDialog, QTextEdit, QLineEdit
+
+pytesseract.pytesseract.tesseract_cmd = r'D:\Program Files\Tesseract-OCR\tesseract.exe'  # Replace with the correct path to tesseract.exe
 
 
 load_dotenv()
@@ -26,7 +28,7 @@ def extract_text_from_image(image_path):
 
 def generate_summary(text):
     response = openai.Completion.create(
-        engine="gpt-3.5-turbo",
+        engine="text-davinci-002",
         prompt=f"Please provide a short summary of the following text:\n\n{text}",
         max_tokens=100,
         n=1,
@@ -78,7 +80,12 @@ class OCRSummarizerApp(QWidget):
             if file_name.lower().endswith(".pdf"):
                 images = convert_pdf_to_images(file_name)
                 if images:
-                    pixmap = QPixmap.fromImage(QImage.fromData(images[0].save("temp.png").getvalue()))
+                    byte_array = QByteArray()
+                    buffer = QBuffer(byte_array)
+                    buffer.open(QIODevice.OpenModeFlag.WriteOnly)
+                    images[0].save(buffer, "PNG")
+                    pixmap = QPixmap()
+                    pixmap.loadFromData(byte_array, "PNG")
                     self.image_pages = images
                 else:
                     self.image_pages = []
@@ -87,9 +94,19 @@ class OCRSummarizerApp(QWidget):
                 self.image_pages = [pixmap]
 
             if self.image_pages:
-                self.image_label.setPixmap(self.image_pages[0].scaled(400, 400, Qt.AspectRatioMode.KeepAspectRatio))
-                self.image_path = file_name
+                # Create a thumbnail
+                thumbnail_size = QSize(400, 400)
+                thumbnail_image = self.image_pages[0].toqimage().scaled(thumbnail_size, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+                thumbnail_pixmap = QPixmap.fromImage(thumbnail_image)
 
+                # Save the thumbnail to the root folder
+                thumbnail_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), "thumbnail.png")
+                thumbnail_image.save(thumbnail_filename)
+
+                # Display the thumbnail
+                self.image_label.setPixmap(thumbnail_pixmap)
+                self.image_path = file_name
+                
     def summarize(self):
         api_key = self.api_key_edit.text().strip()
         if not api_key:
@@ -100,7 +117,17 @@ class OCRSummarizerApp(QWidget):
 
         if hasattr(self, "image_path"):
             if self.image_path.lower().endswith(".pdf"):
-                text = "\n".join([extract_text_from_image(page) for page in self.image_pages])
+                temp_image_files = []
+                for i, page in enumerate(self.image_pages):
+                    temp_filename = f"temp_page_{i}.png"
+                    page.save(temp_filename, "PNG")
+                    temp_image_files.append(temp_filename)
+
+                text = "\n".join([extract_text_from_image(temp_file) for temp_file in temp_image_files])
+
+                # Clean up temporary image files
+                for temp_file in temp_image_files:
+                    os.remove(temp_file)
             else:
                 text = extract_text_from_image(self.image_path)
             summary = generate_summary(text)
