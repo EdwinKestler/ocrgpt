@@ -26,12 +26,15 @@ def extract_text_from_image(image_path):
 
 def generate_summary(text):
     response = openai.Completion.create(
-        engine="text-davinci-002",
-        prompt=f"Please provide a short summary of the following text:\n\n{text}",
-        max_tokens=100,
+        engine="text-davinci-003",
+        prompt=f"Please provide main information of:\n\n{text}\n\nTl;dr:",
+        max_tokens=200,
         n=1,
         stop=None,
-        temperature=0.5,
+        temperature=0.7,
+        frequency_penalty=0.0,
+        presence_penalty=1.0,
+        top_p=1.0,
     )
 
     summary = response.choices[0].text.strip()
