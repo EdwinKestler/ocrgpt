@@ -48,20 +48,18 @@ After completing these steps, restart your terminal or command prompt, and try r
 
 Set up your OpenAI API key and OpenAI ORG:
 
-- Go to [link \[beta.openai\] link](https://beta.openai.com/signup/)
+1. Go to [OpenAI](https://beta.openai.com/signup/)
+2. Create an account or log in to your existing account.
+3. Once logged in, click on the "API keys" tab in the left-hand sidebar.
+4. Click on the "Generate New Key" button to generate a new API key.
+5. Copy the generated API key and paste it into the "API Key" input field in the OCRSummarizerApp GUI.
+6. You will also need to enter your OpenAI organization name in the "Organization" input field in the GUI. This is the name you used to sign up for your OpenAI account.
 
-- Create an account or log in to your existing account.
-- Once logged in, click on the "API keys" tab in the left-hand sidebar.
-- Click on the "Generate New Key" button to generate a new API key.
-- Copy the generated API key and paste it into the "API Key" input field in the OCRSummarizerApp GUI.
-- You will also need to enter your OpenAI organization name in the "Organization" input field in the GUI. This is the name you used to sign up for your OpenAI account.
- Run the OCRSummarizerApp script
+### Run the OCRSummarizerApp script
 
 To run the OCRSummarizerApp script, simply run the following command in your terminal or command prompt:
 
-python OCRSummarizerApp.py
-
-The application should launch and you can use it to extract text from images or PDFs and generate summaries using the Tesseract OCR engine and OpenAI's GPT-3 API.
+    python OCRSummarizerApp.py
 
 ### License
 
