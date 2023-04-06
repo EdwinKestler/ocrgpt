@@ -8,10 +8,9 @@ from PyQt6.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget, QPushBut
 from dotenv import load_dotenv
 from utils import convert_pdf_to_images, set_tesseract_path, get_tesseract_path
 from summary_worker import SummaryWorker
-from custom_widgets import PasswordLineEdit
+from custom_widgets import PasswordLineEdit, ImagePreview
 import openai
 import time
-
 
 load_dotenv()
 
@@ -28,7 +27,7 @@ class OCRSummarizerApp(QWidget):
                 preferences = json.load(f)
             self.api_key_edit.setText(base64.b64decode(preferences.get("api_key", "").encode()).decode())
             self.org_edit.setText(base64.b64decode(preferences.get("organization_id", "").encode()).decode())
-            set_tesseract_path(preferences.get("tesseract_path", ""))
+            set_tesseract_path(preferences.get("tesseract_path", get_tesseract_path()))
 
     def save_preferences(self):
         preferences_path = os.path.join(os.path.expanduser("~"), "Documents", "openai_ocr", "preferences.json")
@@ -70,7 +69,7 @@ class OCRSummarizerApp(QWidget):
         layout.addWidget(self.tesseract_button)
 
         self.image_scroll_area = QScrollArea()
-        self.image_label = QLabel()
+        self.image_label = ImagePreview()
         self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.image_scroll_area.setWidget(self.image_label)
         self.image_scroll_area.setWidgetResizable(True)

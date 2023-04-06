@@ -8,7 +8,6 @@ def set_tesseract_path(path):
 
 def get_tesseract_path():
     return pytesseract.pytesseract.tesseract_cmd
-    
 
 def convert_pdf_to_images(pdf_path):
     images = convert_from_path(pdf_path)

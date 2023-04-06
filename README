@@ -64,3 +64,9 @@ To run the OCRSummarizerApp script, simply run the following command in your ter
 ### License
 
 This project is released under MIT License. Please refer the LICENSE.txt for more details.
+
+## Pending
+
+-calculate the cost of getting that document summarizesd before sending it to openai
+-split the text if its more than 4000 tokens and do each text file at a time, joining the outputs for presenting
+-add a dogecoin wallet so people can pay with that summarization with doge
